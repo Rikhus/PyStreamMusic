@@ -1,0 +1,1 @@
+python C:\\Users\\Rishat\\Documents\\Development\\Python\\PyStreamMusic\\PyStreamMusic.py
