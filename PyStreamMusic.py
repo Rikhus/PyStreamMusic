@@ -36,9 +36,22 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         create_menu_item(menu, 'rap/trap', self.rapBeats)
         create_menu_item(menu, 'hip-hop', self.hipBeats)
         create_menu_item(menu, 'ncs', self.ncsBeats)
+        #create_menu_item(menu, 'cxdy beats', self.cxdyBeats)
         menu.AppendSeparator()
         create_menu_item(menu, 'Exit', self.on_exit)
         return menu
+
+    def cxdyBeats(self,event):
+        if(Vars.Mode!='cxdy'):
+            try:
+                Vars.player.stop()
+            except:
+                pass
+            YouPlay('https://www.youtube.com/playlist?list=PLNj1VGi-TF3AIJAJKr4WZDQDOyj6nY4s')
+            Vars.Mode='cxdy'
+            icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
+            self.SetIcon(icon, 'cxdy beats')
+            Vars.ModeName='cxdy beats'
 
     def hipBeats(self,event):
         if(Vars.Mode!='hip'):
@@ -50,6 +63,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
             Vars.Mode='hip'
             icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
             self.SetIcon(icon, 'hip-hop')
+            Vars.ModeName='hip-hop'
 
     def rapBeats(self,event):
         if(Vars.Mode!='rap'):
@@ -61,6 +75,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
             Vars.Mode='rap'
             icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
             self.SetIcon(icon, 'rap/trap')
+            Vars.ModeName='rap/trap'
 
     def underBeats(self,event):
         if(Vars.Mode!='under'):
@@ -72,6 +87,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
             Vars.Mode='under'
             icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
             self.SetIcon(icon, 'underground')
+            Vars.ModeName='underground'
 
     def trapBeats(self,event):
         if(Vars.Mode!='trap'):
@@ -83,6 +99,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
             Vars.Mode='trap'
             icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
             self.SetIcon(icon, 'trap music')
+            Vars.ModeName='trap music'
 
     def bassBeats(self,event):
         if(Vars.Mode!='bass'):
@@ -94,6 +111,8 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
             Vars.Mode='bass'
             icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
             self.SetIcon(icon, 'bassboost')
+            Vars.ModeName='bassboost'
+
 
     def studyBeats(self,event):
         if(Vars.Mode!='study'):
@@ -105,6 +124,8 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
             Vars.Mode='study'
             icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
             self.SetIcon(icon, 'relax/study')
+            Vars.ModeName='relax/study'
+
 
     def chillBeats(self,event):
         if(Vars.Mode!='chill'):
@@ -116,6 +137,8 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
             Vars.Mode='chill'
             icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
             self.SetIcon(icon, 'chill/sleep')
+            Vars.ModeName='chill/sleep'
+
 
     def sadBeats(self,event):
         if(Vars.Mode!='sad'):
@@ -127,6 +150,8 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
             Vars.Mode='sad'
             icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
             self.SetIcon(icon, 'sad/sleepy')
+            Vars.ModeName='sad/sleepy'
+
 
     def gamingBeats(self,event):
         if(Vars.Mode!='gaming'):
@@ -138,6 +163,8 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
             Vars.Mode='gaming'
             icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
             self.SetIcon(icon, 'gaming')
+            Vars.ModeName='gaming'
+
 
     def electronicBeats(self,event):
         if(Vars.Mode!='electronic'):
@@ -149,6 +176,8 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
             Vars.Mode='electronic'
             icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
             self.SetIcon(icon, 'electronic')
+            Vars.ModeName='electronic'
+
 
     def dubstepBeats(self,event):
         if(Vars.Mode!='dubstep'):
@@ -160,6 +189,8 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
             Vars.Mode='dubstep'
             icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
             self.SetIcon(icon, 'dubstep/trap/edm')
+            Vars.ModeName='dubstep/trap/edm'
+
 
     def ncsBeats(self,event):
         if(Vars.Mode!='ncs'):
@@ -171,10 +202,23 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
             Vars.Mode='ncs'
             icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
             self.SetIcon(icon, 'ncs')
+            Vars.ModeName='ncs'
+
 
 
     def on_left_down(self, event):
-        Vars.player.audio_toggle_mute()
+        try:
+            Vars.player.audio_toggle_mute()
+            isMuted = Vars.player.audio_get_mute()
+            if(isMuted):
+                icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
+                self.SetIcon(icon, Vars.ModeName+"(muted)")
+            else:
+                icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
+                self.SetIcon(icon, Vars.ModeName)                
+        except:
+            pass
+
 
 
     def on_exit(self, event):
@@ -211,9 +255,10 @@ def YouPlay(vidUrl):
 
 
 class Vars:
-    Mode='study'
+    Mode=''
     player=None
     isStopped=False
+    ModeName=''
 
 def main():
     app = App(False)
