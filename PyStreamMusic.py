@@ -1,8 +1,12 @@
-import youtube_dl
+from youtube_dl import YoutubeDL
 import vlc
 from time import sleep
 import wx
 import wx.adv
+import random
+from threading import Thread
+
+random.seed(version=2)
 
 
 
@@ -30,13 +34,17 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         create_menu_item(menu, 'gaming', self.gamingBeats)
         create_menu_item(menu, 'electronic', self.electronicBeats)
         create_menu_item(menu, 'dubstep/trap/edm', self.dubstepBeats)
-        create_menu_item(menu, 'bassboost', self.bassBeats)
+        #create_menu_item(menu, 'bassboost', self.bassBeats)
         create_menu_item(menu, 'trap music', self.trapBeats)
         create_menu_item(menu, 'underground', self.underBeats)
         create_menu_item(menu, 'rap/trap', self.rapBeats)
         create_menu_item(menu, 'hip-hop', self.hipBeats)
-        create_menu_item(menu, 'ncs', self.ncsBeats)
-        #create_menu_item(menu, 'cxdy beats', self.cxdyBeats)
+        #create_menu_item(menu, 'ncs', self.ncsBeats)
+        create_menu_item(menu, 'cxdy beats', self.cxdyBeats)
+        create_menu_item(menu, 'feniko beats', self.fenikoBeats)
+        create_menu_item(menu, 'feniko 2019', self.feniko2019Beats)
+        create_menu_item(menu, 'feniko 2018', self.feniko2018Beats)
+        create_menu_item(menu, 'feniko free', self.fenikofreeBeats)
         menu.AppendSeparator()
         create_menu_item(menu, 'Exit', self.on_exit)
         return menu
@@ -45,18 +53,73 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         if(Vars.Mode!='cxdy'):
             try:
                 Vars.player.stop()
+                Vars.playlistPlayer.kill()
             except:
                 pass
-            YouPlay('https://www.youtube.com/playlist?list=PLNj1VGi-TF3AIJAJKr4WZDQDOyj6nY4s')
+            YouPlay('https://www.youtube.com/playlist?list=PLNj1VGi-TF3AIJAJKr4WZDQDOyj6nY4sK',isPlaylist=True)
             Vars.Mode='cxdy'
             icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
             self.SetIcon(icon, 'cxdy beats')
             Vars.ModeName='cxdy beats'
 
+    def fenikoBeats(self,event):
+        if(Vars.Mode!='feniko'):
+            try:
+                Vars.player.stop()
+                Vars.playlistPlayer.kill()
+            except:
+                pass
+            YouPlay('https://www.youtube.com/playlist?list=PLpfvdY_eWAh3cSkndJKrfor_ip929wqfn',isPlaylist=True)
+            Vars.Mode='feniko'
+            icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
+            self.SetIcon(icon, 'feniko beats')
+            Vars.ModeName='feniko beats'
+
+
+    def feniko2019Beats(self,event):
+        if(Vars.Mode!='feniko2019'):
+            try:
+                Vars.player.stop()
+                Vars.playlistPlayer.kill()
+            except:
+                pass
+            YouPlay('https://www.youtube.com/playlist?list=PLpfvdY_eWAh2xnLcfBIi20lc4G1Ypr-1M',isPlaylist=True)
+            Vars.Mode='feniko2019'
+            icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
+            self.SetIcon(icon, 'feniko 2019')
+            Vars.ModeName='feniko 2019'
+
+    def feniko2018Beats(self,event):
+        if(Vars.Mode!='feniko2018'):
+            try:
+                Vars.player.stop()
+                Vars.playlistPlayer.kill()
+            except:
+                pass
+            YouPlay('https://www.youtube.com/playlist?list=PLpfvdY_eWAh2qs67AsMda-qT9aaaSZraT',isPlaylist=True)
+            Vars.Mode='feniko2018'
+            icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
+            self.SetIcon(icon, 'feniko 2018')
+            Vars.ModeName='feniko 2018'
+
+    def fenikofreeBeats(self,event):
+        if(Vars.Mode!='fenikofree'):
+            try:
+                Vars.player.stop()
+                Vars.playlistPlayer.kill()
+            except:
+                pass
+            YouPlay('https://www.youtube.com/playlist?list=PLpfvdY_eWAh2NxE0PGesVXVSTQNZzvKbu',isPlaylist=True)
+            Vars.Mode='fenikofree'
+            icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
+            self.SetIcon(icon, 'feniko free')
+            Vars.ModeName='feniko free'
+
     def hipBeats(self,event):
         if(Vars.Mode!='hip'):
             try:
                 Vars.player.stop()
+                Vars.playlistPlayer.kill()
             except:
                 pass
             YouPlay('https://www.youtube.com/watch?v=DU97WQY_GLs')
@@ -69,6 +132,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         if(Vars.Mode!='rap'):
             try:
                 Vars.player.stop()
+                Vars.playlistPlayer.kill()
             except:
                 pass
             YouPlay('https://www.youtube.com/watch?v=-WOA1Dr2EUo')
@@ -81,6 +145,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         if(Vars.Mode!='under'):
             try:
                 Vars.player.stop()
+                Vars.playlistPlayer.kill()
             except:
                 pass
             YouPlay('https://www.youtube.com/watch?v=05689ErDUdM')
@@ -93,6 +158,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         if(Vars.Mode!='trap'):
             try:
                 Vars.player.stop()
+                Vars.playlistPlayer.kill()
             except:
                 pass
             YouPlay('https://www.youtube.com/watch?v=Ppnogeufi-4')
@@ -105,6 +171,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         if(Vars.Mode!='bass'):
             try:
                 Vars.player.stop()
+                Vars.playlistPlayer.kill()
             except:
                 pass
             YouPlay('https://www.youtube.com/watch?v=CtwD3joN1as')
@@ -118,6 +185,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         if(Vars.Mode!='study'):
             try:
                 Vars.player.stop()
+                Vars.playlistPlayer.kill()
             except:
                 pass
             YouPlay('https://www.youtube.com/watch?v=hHW1oY26kxQ')
@@ -131,6 +199,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         if(Vars.Mode!='chill'):
             try:
                 Vars.player.stop()
+                Vars.playlistPlayer.kill()
             except:
                 pass
             YouPlay('https://www.youtube.com/watch?v=EcEMX-63PKY')
@@ -144,6 +213,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         if(Vars.Mode!='sad'):
             try:
                 Vars.player.stop()
+                Vars.playlistPlayer.kill()
             except:
                 pass
             YouPlay('https://www.youtube.com/watch?v=yPLLhlX0YXM')
@@ -157,6 +227,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         if(Vars.Mode!='gaming'):
             try:
                 Vars.player.stop()
+                Vars.playlistPlayer.kill()
             except:
                 pass
             YouPlay('https://www.youtube.com/watch?v=8ptZkxgcj7I')
@@ -170,6 +241,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         if(Vars.Mode!='electronic'):
             try:
                 Vars.player.stop()
+                Vars.playlistPlayer.kill()
             except:
                 pass
             YouPlay('https://www.youtube.com/watch?v=oZzQC8NVTeM')
@@ -183,6 +255,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         if(Vars.Mode!='dubstep'):
             try:
                 Vars.player.stop()
+                Vars.playlistPlayer.kill()
             except:
                 pass
             YouPlay('https://www.youtube.com/watch?v=GVC5adzPpiE')
@@ -196,6 +269,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         if(Vars.Mode!='ncs'):
             try:
                 Vars.player.stop()
+                Vars.playlistPlayer.kill()
             except:
                 pass
             YouPlay('https://www.youtube.com/watch?v=Jb16xUBDY-4')
@@ -215,7 +289,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
                 self.SetIcon(icon, Vars.ModeName+"(muted)")
             else:
                 icon = wx.Icon('PYStream.ico', wx.BITMAP_TYPE_ICO)
-                self.SetIcon(icon, Vars.ModeName)                
+                self.SetIcon(icon, Vars.ModeName)
         except:
             pass
 
@@ -234,24 +308,47 @@ class App(wx.App):
 
 
 
-def YouPlay(vidUrl):
+def YouPlay(vidUrl,isPlaylist=False):
+
     VIDEO_URL = vidUrl
+    ydl_opt={"extract_flat":True,'quiet':True}
+    ydl = YoutubeDL(ydl_opt)
+    ydl.add_default_info_extractors()
 
-    ydl = youtube_dl.YoutubeDL()
-    video = ydl.extract_info(
-        VIDEO_URL,
-        download=False,
-    )
-    title=video['title']
-    print(title)
-    url = video['url']
+    if(not isPlaylist):
+        info = ydl.extract_info(VIDEO_URL,download=False)
+        title=info['title']
+        print(title)
+        url = info['formats'][0]['url']
 
-    instance = vlc.Instance('--no-video')
-    Vars.player = instance.media_player_new()
-    media = instance.media_new(url)
-    Vars.player.set_media(media)
+        instance = vlc.Instance('--no-video --quiet')
+        Vars.player = instance.media_player_new()
+        media = instance.media_new(url)
+        Vars.player.set_media(media)
 
-    Vars.player.play()
+        Vars.player.play()
+    else:
+        ydl_opt={"extract_flat":True,'quiet':True,'playlistrandom':True}
+        ydl = YoutubeDL(ydl_opt)
+        info = ydl.extract_info(VIDEO_URL,download=False)
+        entries=info['entries']
+        Vars.playlistPlayer=PlaylistPlaying(Vars.player, entries)
+        Vars.playlistPlayer.start()
+
+
+class PlaylistPlaying(Thread):
+    def __init__(self,player,playlist):
+        Thread.__init__(self)
+        self.playlist=playlist
+
+    def run(self):
+        while True:
+            i=random.randint(0,len(self.playlist))
+            print("https://youtube.com/watch?v="+self.playlist[i]['url'])
+            YouPlay("https://youtube.com/watch?v="+self.playlist[i]['url'])
+            self.player=Vars.player
+            while self.player.get_state()!=6:
+                sleep(0.7)
 
 
 class Vars:
@@ -259,6 +356,7 @@ class Vars:
     player=None
     isStopped=False
     ModeName=''
+    playlistPlayer=None
 
 def main():
     app = App(False)
